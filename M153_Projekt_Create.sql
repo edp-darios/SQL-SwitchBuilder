@@ -2,7 +2,7 @@
 -- M153 Projekt
 -------------------------------------------------------------------------------
 -- File   : M153_Projekt_Create.sql
--- Autor  : Dario Stübi
+-- Autor  : Dario Stï¿½bi
 -- Datum  : 25.05.3022
 -- System : T-SQL
 -------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ create table Switch (
   CreateDate date,
   FactoryLubed BIT,
   FivePin BIT,
-  fk_TopHousingId int foreign key references Housing(Id),
+  fk_HousingId int foreign key references Housing(Id),
   fk_StemId int foreign key references Stem(Id),
   fk_SpringId int foreign key references Spring(Id)
 );
