@@ -68,7 +68,7 @@ begin
 end
 go
 -------------------------------------------------------------------------------
--- Stored Procedure erstellen
+-- Stored Procedure sp_InsertStem erstellen
 -------------------------------------------------------------------------------
 drop procedure if exists sp_InsertStem
 go
@@ -78,5 +78,26 @@ create procedure sp_InsertStem
   @Material varchar(30)
 as begin
   insert into Stem (Des, Material) VALUES (@Des, @Material)
+end
+go
+
+-------------------------------------------------------------------------------
+-- Stored Procedure sp_CountAmountOfType erstellen
+-------------------------------------------------------------------------------
+drop procedure if exists sp_CountAmountOfType
+go
+
+create procedure sp_CountAmountOfType
+  @Type int
+as begin
+  declare @AmountOfType int
+  if(@Type < 4)
+    begin
+      select @AmountOfType = COUNT(Switch_Type.fk_TypeId)
+      from Switch_Type
+      where Switch_Type.fk_TypeId = @Type
+      return @AmountOfType;
+    end
+  else select 'Gib einen gültigen Typ an'
 end
 go
