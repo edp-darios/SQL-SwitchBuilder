@@ -2,7 +2,7 @@
 -- M153 Projekt
 -------------------------------------------------------------------------------
 -- File   : M153_Projekt_Create.sql
--- Autor  : Dario St�bi
+-- Autor  : Dario Stübi
 -- Datum  : 25.05.3022
 -- System : T-SQL
 -------------------------------------------------------------------------------
@@ -55,3 +55,49 @@ create table Switch_Type (
   fk_SwitchId int foreign key references Switch(Id) NOT NULL,
   fk_TypeId int foreign key references Type(Id) NOT NULL
 );
+go
+-------------------------------------------------------------------------------
+-- Trigger erstellen
+-------------------------------------------------------------------------------
+alter table Switch_Type nocheck constraint FK__Switch_Ty__fk_Sw__30F848ED
+go
+
+create trigger DeleteSwitch on Switch for delete as
+begin
+  delete from Switch_Type where fk_SwitchId IN (select Id from deleted)
+end
+go
+-------------------------------------------------------------------------------
+-- Stored Procedure erstellen
+-------------------------------------------------------------------------------
+drop procedure if exists sp_CountAmountOfType
+go
+
+create procedure sp_CountAmountOfType
+	@Type int
+as begin
+  declare @AmountOfType int
+	if(@Type != null AND @Type < 4)
+	begin
+		select @AmountOfType = COUNT(Switch_Type.fk_TypeId)
+		from Switch_Type
+		where Switch_Type.fk_TypeId = @Type
+		return @AmountOfType;
+	end
+end
+go
+
+
+drop procedure if exists sp_CountAmountOfType
+go
+
+create procedure sp_CountAmountOfType
+	@Type int
+as begin
+  declare @AmountOfType int
+  select @AmountOfType = COUNT(Switch_Type.fk_TypeId)
+  from Switch_Type
+  where Switch_Type.fk_TypeId = @Type
+  return @AmountOfType;
+end
+go
